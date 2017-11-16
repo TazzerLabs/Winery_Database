@@ -143,6 +143,42 @@ insert into specialty(specialty_name, Description) values ('Midnight Taz',
 
 insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
 					values (1, 'Sunlit Kiss', 'Pinot Noir', 'White', 150, 1);
+					
+-- new wine START here
+
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Dusk Kiss', 'Pinot Noir', 'White', 150, 1); 
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Sauvignon de Soto', 'Sauvignon Blanc', 'White', 250, 1); 
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Grigo de Spaina', 'Pinot Grigo', 'White', 100, 1); 
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Spanish Kiss', 'Zinfadel', 'Red', 150, 2);
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Landeros Blend', 'Pinoy Grigo & Sauvignon Blanc', 'White', 100, 2);
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Red Falcon', 'Zinfadel', 'Red', 150, 3);
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (2, 'Midnight Spain', 'Malbec & Cabernet Franc', 'Red', 200, 4);
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (1, 'Shiraz Tasmania', 'Malbec & Shiraz', 'Red', 175, 4);
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (2, 'Zinfadel Franc', 'Zinfadel & Cabernet Franc', 'Red', 50, 4);
+					
+insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
+					values (2, 'Tasmania Sang', 'Tannat & Sanglovese', 'Red', 275, 4);
+					
+
+					
+-- new wine END here NOTE: Remember to put into respected places so it looks nice
                     
 insert into Wines(wines_age, wines_name, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
 					values (1, 'Landeros Zin', 'Zinfadel', 'Red', 100, 2);

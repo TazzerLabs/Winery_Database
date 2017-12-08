@@ -2,35 +2,35 @@ use jsoto;
 
 /*
 	Programmer: Johnathan Soto
-    Program: Project#1.sql -- WineryDatabase
+    Program: Project#1.sql -- wineryDatabase
     Language: SQL
     Date: Fall 2017
-    Description: A winery database that keeps track of various 
+    description: A winery database that keeps track of various 
     
-				 Wineries: IDs, names, & symbol
-                 specialty: IDs, name, Description
-                 Wines: IDs, color, Wine Age, Wine name, vine age, Grape blend, Amount made
+				 wineries: IDs, names, & symbol
+                 specialty: IDs, name, description
+                 wines: IDs, color, wine Age, wine name, vine age, Grape blend, Amount made
                  Tasting Rooms: IDs, Amount sold
                  Member: IDs, first name, last name, email, birthday, payment
                  companies: IDs, name
-                 Location: IDs, zip, street
+                 location: IDs, zip, street
                  
 				 , while also keeping track of the TABLE connecting each of the TABLE listed 
 				 above.  This data base is keeping records of each TABLE inner contents 
                  (stuff procceding a colon).
                  Connecting each table =
                  
-                 Wineries_Wine
-                 Wineries_Location
-                 Wineries_specialty
-                 Wineries_Tasting_Room
-                 Wineries_companies: start_date, end_date, Amount bought
-                 Wines_Tasting_Room
+                 wineries_wine
+                 wineries_location
+                 wineries_specialty
+                 wineries_Tasting_Room
+                 wineries_companies: start_date, end_date, Amount bought
+                 wines_Tasting_Room
                  Tasting_Room_Member: Member?
-                 companies_Location
+                 companies_location
                  
-				  NOTE: Wineries_Wine & Wineries_Tasting_Room TABLE are backup TABLE in case the relatiON to 
-						Wineries, Wines, or Tasting_Rooms become comprimised in some way.  These are just
+				  NOTE: wineries_wine & wineries_Tasting_Room TABLE are backup TABLE in case the relatiON to 
+						wineries, wines, or Tasting_Rooms become comprimised in some way.  These are just
 						in case TABLE so the REFERENCES and the FOREIGN KEYS can be stored if a glitch
 						or unforeseen circumstance were to occur and comprimise the connectiON between each table.
 
@@ -40,73 +40,73 @@ use jsoto;
 -- All TABLE being CREATEd
 
 
-CREATE TABLE Wineries(Wineries_ID INT auto_increment PRIMARY KEY, name VARCHAR(50) UNIQUE,
+CREATE TABLE wineries(wineries_id INT auto_increment PRIMARY KEY, name VARCHAR(50) UNIQUE,
 						symbol VARCHAR(25));
 
-CREATE TABLE specialty(specialty_ID INT auto_increment PRIMARY KEY, 
-						specialty_name VARCHAR(25) UNIQUE, DescriptiON VARCHAR(100));
+CREATE TABLE specialty(specialty_id INT auto_increment PRIMARY KEY, 
+						specialty_name VARCHAR(25) UNIQUE, description VARCHAR(100));
 
 
-CREATE TABLE Wines(Wines_ID INT auto_increment PRIMARY KEY, wines_age INT, 
+CREATE TABLE wines(wines_id INT auto_increment PRIMARY KEY, wines_age INT, 
 					wines_name VARCHAR(25), vine_age INT, grape_blend VARCHAR(100),
 					UNIQUE(wines_age, wines_name, vine_age, grape_blend), 
-					color_of_wine VARCHAR(25), Amount_made INT, Wineries_ID INT,
-                    FOREIGN KEY(Wineries_ID) REFERENCES Wineries(Wineries_ID) ON DELETE CASCADE ON UPDATE CASCADE);
+					color_of_wine VARCHAR(25), amount_made INT, amount_sold INT, wineries_id INT,
+                    FOREIGN KEY(wineries_id) REFERENCES wineries(wineries_id) ON DELETE CASCADE ON UPDATE CASCADE);
                         
-CREATE TABLE Location(Location_ID INT auto_increment PRIMARY KEY, 
+CREATE TABLE location(location_id INT auto_increment PRIMARY KEY, 
 						zip_code VARCHAR(25), street VARCHAR(50));
 
 
-CREATE TABLE Tasting_Room(Tasting_Room_ID INT auto_increment PRIMARY KEY, 
-							Amount_sold INT, Wineries_ID INT,
-							FOREIGN KEY(Wineries_ID) REFERENCES Wineries(Wineries_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE Tasting_Room(Tasting_Room_id INT auto_increment PRIMARY KEY, 
+							Amount_sold INT, wineries_id INT,
+							FOREIGN KEY(wineries_id) REFERENCES wineries(wineries_id)ON DELETE CASCADE ON UPDATE CASCADE);
                                                                                                                                             
-CREATE TABLE Member(Member_ID INT auto_increment PRIMARY KEY, email VARCHAR(25) UNIQUE, 
+CREATE TABLE Member(Member_id INT auto_increment PRIMARY KEY, email VARCHAR(25) UNIQUE, 
 						First_name VARCHAR(25), Last_name VARCHAR(25), Birthday timestamp,
 						Payment VARCHAR(50));
 
-CREATE TABLE companies(companies_ID INT auto_increment PRIMARY KEY,
+CREATE TABLE companies(companies_id INT auto_increment PRIMARY KEY,
 						companies_name VARCHAR(50) UNIQUE);
 
-CREATE TABLE Tasting_Room_Member(Tasting_Room_ID INT, Member_ID INT, Is_Member bool,
-									PRIMARY KEY(Tasting_Room_ID, Member_ID),
-									FOREIGN KEY(Tasting_Room_ID) REFERENCES Tasting_Room(Tasting_Room_ID)ON DELETE CASCADE ON UPDATE CASCADE, 
-                                    FOREIGN KEY(Member_ID)REFERENCES Member(Member_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE Tasting_Room_Member(Tasting_Room_id INT, Member_id INT, Is_Member bool,
+									PRIMARY KEY(Tasting_Room_id, Member_id),
+									FOREIGN KEY(Tasting_Room_id) REFERENCES Tasting_Room(Tasting_Room_id)ON DELETE CASCADE ON UPDATE CASCADE, 
+                                    FOREIGN KEY(Member_id)REFERENCES Member(Member_id)ON DELETE CASCADE ON UPDATE CASCADE);
 
 
-CREATE TABLE Wineries_Tasting_Room(Wineries_ID INT, Tasting_Room_ID INT, 
-									PRIMARY KEY(Wineries_ID, Tasting_Room_ID),
-									FOREIGN KEY (Wineries_ID) REFERENCES Wineries(Wineries_ID)ON DELETE CASCADE ON UPDATE CASCADE, 
-                                    FOREIGN KEY (Tasting_Room_ID) REFERENCES Tasting_Room(Tasting_Room_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE wineries_Tasting_Room(wineries_id INT, Tasting_Room_id INT, 
+									PRIMARY KEY(wineries_id, Tasting_Room_id),
+									FOREIGN KEY (wineries_id) REFERENCES wineries(wineries_id)ON DELETE CASCADE ON UPDATE CASCADE, 
+                                    FOREIGN KEY (Tasting_Room_id) REFERENCES Tasting_Room(Tasting_Room_id)ON DELETE CASCADE ON UPDATE CASCADE);
 
 
 
-CREATE TABLE Wineries_Wine(Wineries_ID INT, Wines_ID INT, 
-								PRIMARY KEY(Wineries_ID, Wines_ID),
-								FOREIGN KEY(Wineries_ID) REFERENCES Wineries(Wineries_ID)ON DELETE CASCADE ON UPDATE CASCADE, 
-                                FOREIGN KEY (Wines_ID) REFERENCES Wines(Wines_ID)ON DELETE CASCADE ON UPDATE CASCADE); 
+CREATE TABLE wineries_wine(wineries_id INT, wines_id INT, 
+								PRIMARY KEY(wineries_id, wines_id),
+								FOREIGN KEY(wineries_id) REFERENCES wineries(wineries_id)ON DELETE CASCADE ON UPDATE CASCADE, 
+                                FOREIGN KEY (wines_id) REFERENCES wines(wines_id)ON DELETE CASCADE ON UPDATE CASCADE); 
 																					
 
-CREATE TABLE Wineries_specialty(Wineries_ID INT, specialty_ID INT, 
-									PRIMARY KEY(Wineries_ID, specialty_ID),
-									FOREIGN KEY(Wineries_ID) REFERENCES Wineries(Wineries_ID)ON DELETE CASCADE ON UPDATE CASCADE, 
-                                    FOREIGN KEY(specialty_ID) REFERENCES specialty(specialty_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE wineries_specialty(wineries_id INT, specialty_id INT, 
+									PRIMARY KEY(wineries_id, specialty_id),
+									FOREIGN KEY(wineries_id) REFERENCES wineries(wineries_id)ON DELETE CASCADE ON UPDATE CASCADE, 
+                                    FOREIGN KEY(specialty_id) REFERENCES specialty(specialty_id)ON DELETE CASCADE ON UPDATE CASCADE);
 
 
-CREATE TABLE Wineries_Location(Wineries_ID INT , Location_ID INT , 
-								PRIMARY KEY(Wineries_ID, Location_ID),
-                                FOREIGN KEY(Wineries_ID) REFERENCES Wineries(Wineries_ID)ON DELETE CASCADE ON UPDATE CASCADE,
-								FOREIGN KEY(Location_ID) REFERENCES Location(Location_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE wineries_location(wineries_id INT , location_id INT , 
+								PRIMARY KEY(wineries_id, location_id),
+                                FOREIGN KEY(wineries_id) REFERENCES wineries(wineries_id)ON DELETE CASCADE ON UPDATE CASCADE,
+								FOREIGN KEY(location_id) REFERENCES location(location_id)ON DELETE CASCADE ON UPDATE CASCADE);
 
-CREATE TABLE Wineries_companies(Wineries_ID INT, companies_ID INT, start_date timestamp, 
+CREATE TABLE wineries_companies(wineries_id INT, companies_id INT, start_date timestamp, 
 								end_date timestamp, Amount_Bought INT, 
-								FOREIGN KEY (Wineries_ID) REFERENCES Wineries(Wineries_ID)ON DELETE CASCADE ON UPDATE CASCADE, 
-                                FOREIGN KEY (companies_ID) REFERENCES companies(companies_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+								FOREIGN KEY (wineries_id) REFERENCES wineries(wineries_id)ON DELETE CASCADE ON UPDATE CASCADE, 
+                                FOREIGN KEY (companies_id) REFERENCES companies(companies_id)ON DELETE CASCADE ON UPDATE CASCADE);
 
-CREATE TABLE companies_Location(companies_ID INT , Location_ID INT , 
-								PRIMARY KEY(companies_ID, Location_ID),
-                                FOREIGN KEY(companies_ID) REFERENCES companies(companies_ID)ON DELETE CASCADE ON UPDATE CASCADE,
-								FOREIGN KEY(Location_ID) REFERENCES Location(Location_ID)ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE companies_location(companies_id INT , location_id INT , 
+								PRIMARY KEY(companies_id, location_id),
+                                FOREIGN KEY(companies_id) REFERENCES companies(companies_id)ON DELETE CASCADE ON UPDATE CASCADE,
+								FOREIGN KEY(location_id) REFERENCES location(location_id)ON DELETE CASCADE ON UPDATE CASCADE);
 
 
                  
@@ -115,111 +115,117 @@ CREATE TABLE companies_Location(companies_ID INT , Location_ID INT ,
 -- Begin Table INSERTiON ----------------------------------------------------------------------------
 
 
-           /* Wineries INSERT */
+           /* wineries INSERT */
 
-INSERT INTO Wineries(name, symbol) VALUES ('Soto Winery','Phoenix');
+INSERT INTO wineries(name, symbol) VALUES ('Soto winery','Phoenix');
 
-INSERT INTO Wineries(name, symbol) VALUES('Landeros Wines','Tower');
+INSERT INTO wineries(name, symbol) VALUES('Landeros wines','Tower');
 
-INSERT INTO Wineries(name, symbol) VALUES('Flores-Abrego Winery','Falcon');
+INSERT INTO wineries(name, symbol) VALUES('Flores-Abrego winery','Falcon');
 
-INSERT INTO Wineries(name, symbol) VALUES('Tazzer Winery','Tasmanian Devil');
+INSERT INTO wineries(name, symbol) VALUES('Tazzer winery','Tasmanian Devil');
 
 
 
 			/* specialty INSERT */
 
-INSERT INTO specialty(specialty_name, Description) VALUES ('Spanish Wine',
-											'Wine is produced in Spain and is a red wine');
+INSERT INTO specialty(specialty_name, description) VALUES ('Spanish wine',
+											'wine is produced in Spain and is a red wine');
 
-INSERT INTO specialty(specialty_name, Description) VALUES ('Portugal Wine',
+INSERT INTO specialty(specialty_name, description) VALUES ('Portugal wine',
 											'Red wine that has been made through many 
 												traditions passed down the generations');
 
-INSERT INTO specialty(specialty_name, Description) VALUES ('Flori Wine', 
+INSERT INTO specialty(specialty_name, description) VALUES ('Flori wine', 
 											'Red wine with cinnamON that is aged for 
 												in the 2 years in an oak bottle');
 
-INSERT INTO specialty(specialty_name, Description) VALUES ('Midnight Taz', 
+INSERT INTO specialty(specialty_name, description) VALUES ('Midnight Taz', 
 											'Red wine that has a bit of spice to go 
 												well with red meats');
 
-			/* Wines INSERT */
+			/* wines INSERT */
 
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Sunlit Kiss', 100, 'Pinot Noir', 'White', 150, 1);
+
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Sunlit Kiss', 100, 'Pinot Noir', 'White', 150, 1, 50);
                     
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Landeros Zin', 100, 'Zinfadel', 'Red', 100, 2);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Landeros Zin', 100, 'Zinfadel', 'Red', 100, 2, 70);
 
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (0, 'White Falcon', 100, 'SauvignON Blanc & Sélmillon', 'White', 50, 3);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (0, 'White Falcon', 100, 'Sauvignon Blanc & Sélmillon', 'White', 50, 3, 10);
 
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (2, 'Taz Midnight', 100, 'Malbec & Cabernet Franc', 'Red', 200, 4);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (2, 'Taz Midnight', 100, 'Malbec & Cabernet Franc', 'Red', 200, 4, 150);
 
-		/* Fluff data for the database in Wines */
+		/* Fluff data for the database in wines */
 
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Dusk Kiss', 100, 'Pinot Noir', 'White', 150, 1); 
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Dusk Kiss', 100, 'Pinot Noir', 'White', 150, 1, 60); 
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'SauvignON de Soto', 50, 'SauvignON Blanc', 'White', 250, 1); 
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Sauvignon de Soto', 50, 'Sauvignon Blanc', 'White', 250, 1, 180); 
+
+delete from wines where wines_id = 6;
+select * from wines;
+update wines set wines_id = 6 where wines_id =19;
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Grigo de Spaina', 50, 'Pinot Grigo', 'White', 100, 1); 
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Grigo de Spaina', 50, 'Pinot Grigo', 'White', 100, 1, 40);  
+
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Spanish Kiss', 50, 'Zinfadel', 'Red', 150, 2);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Spanish Kiss', 50, 'Zinfadel', 'Red', 150, 2, 40);
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Landeros Blend', 70, 'Pinoy Grigo & SauvignON Blanc', 'White', 100, 2);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Landeros Blend', 70, 'Pinoy Grigo & Sauvignon Blanc', 'White', 100, 2, 36);
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Red Falcon', 70, 'Zinfadel', 'Red', 150, 3);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Red Falcon', 70, 'Zinfadel', 'Red', 150, 3, 100);
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (2, 'Midnight Spain', 160, 'Malbec & Cabernet Franc', 'Red', 200, 4);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (2, 'Midnight Spain', 160, 'Malbec & Cabernet Franc', 'Red', 200, 4, 156);
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (1, 'Shiraz Tasmania', 150, 'Malbec & Shiraz', 'Red', 175, 4);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (1, 'Shiraz Tasmania', 150, 'Malbec & Shiraz', 'Red', 175, 4, 146);
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (2, 'Zinfadel Franc', 120, 'Zinfadel & Cabernet Franc', 'Red', 50, 4);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (2, 'Zinfadel Franc', 120, 'Zinfadel & Cabernet Franc', 'Red', 50, 4, 38);
 					
-INSERT INTO Wines(wines_age, wines_name, vines_age, grape_blend, color_of_wine, Amount_made, Wineries_ID) 
-					VALUES (2, 'Tasmania Sang', 60, 'Tannat & Sanglovese', 'Red', 275, 4);
+INSERT INTO wines(wines_age, wines_name, vine_age, grape_blend, color_of_wine, amount_made, wineries_id, amount_sold) 
+					VALUES (2, 'Tasmania Sang', 60, 'Tannat & Sanglovese', 'Red', 275, 4, 275);
 
 
 
-			/* LocatiON INSERT */
+			/* location INSERT */
 
-INSERT INTO LocatiON (street, zip_code) VALUES ('67890 Soto St.', '12345');
+INSERT INTO location (street, zip_code) VALUES ('67890 Soto St.', '12345');
 
-INSERT INTO Location(zip_code, street) VALUES ('13579', '52637 Landero Ln.');
+INSERT INTO location(zip_code, street) VALUES ('13579', '52637 Landero Ln.');
 
-INSERT INTO Location(zip_code, street) VALUES ('27346', '35677 Abrego Hill');
+INSERT INTO location(zip_code, street) VALUES ('27346', '35677 Abrego Hill');
 
-INSERT INTO Location(zip_code, street) VALUES ('31535', '15167 Tasmania Rd.');
+INSERT INTO location(zip_code, street) VALUES ('31535', '15167 Tasmania Rd.');
 
-INSERT INTO Location(zip_code, street) VALUES ('53521', '31583 Cotati Rd.');
+INSERT INTO location(zip_code, street) VALUES ('53521', '31583 Cotati Rd.');
 
-INSERT INTO Location(zip_code, street) VALUES ('36267', '36712 HuntingtON Rd.');
+INSERT INTO location(zip_code, street) VALUES ('36267', '36712 HuntingtON Rd.');
 
-INSERT INTO Location(zip_code, street) VALUES ('73514', '84820 Del Rio Rd.');
+INSERT INTO location(zip_code, street) VALUES ('73514', '84820 Del Rio Rd.');
 
-INSERT INTO Location(zip_code, street) VALUES ('13753', '63518 Virginia Rd.');
+INSERT INTO location(zip_code, street) VALUES ('13753', '63518 Virginia Rd.');
 
 
 			/* Tasting_Room INSERT */
             
-INSERT INTO Tasting_Room(Amount_sold, Wineries_ID) VALUES (59 , 1);
+INSERT INTO Tasting_Room(Amount_sold, wineries_id) VALUES (59 , 1);
 
-INSERT INTO Tasting_Room(Amount_sold, Wineries_ID) VALUES (48 , 2);
+INSERT INTO Tasting_Room(Amount_sold, wineries_id) VALUES (48 , 2);
 
-INSERT INTO Tasting_Room(Amount_sold, Wineries_ID) VALUES (24 , 3);
+INSERT INTO Tasting_Room(Amount_sold, wineries_id) VALUES (24 , 3);
 
-INSERT INTO Tasting_Room(Amount_sold, Wineries_ID) VALUES (40 , 4);
+INSERT INTO Tasting_Room(Amount_sold, wineries_id) VALUES (40 , 4);
 
 
 
@@ -232,10 +238,10 @@ INSERT INTO Member(email, First_name, Last_name, Birthday, Payment)
 				VALUES ('ZinLover@gmail.com', 'Stephanie', 'Lee', '1980-02-16', 'BofA 3456');
 
 INSERT INTO Member(email, First_name, Last_name, Birthday, Payment) 
-				VALUES ('GeekWineO@gmail.com', 'David', 'Flori', '1974-07-28', 'USAA 9876');
+				VALUES ('GeekwineO@gmail.com', 'David', 'Flori', '1974-07-28', 'USAA 9876');
 
 INSERT INTO Member(email, First_name, Last_name, Birthday, Payment) 
-				VALUES ('TexWine@gmail.com', 'Brenda', 'Esparza', '1974-11-15', 'Bitcoin 4680');
+				VALUES ('Texwine@gmail.com', 'Brenda', 'Esparza', '1974-11-15', 'Bitcoin 4680');
 
 			/* companies INSERT */ 
 
@@ -250,108 +256,108 @@ INSERT INTO companies(companies_name) VALUES ('West Ocean Resturants');
 
 			/* Tasting_Room_Member INSERT */
             
-INSERT INTO Tasting_Room_Member(Tasting_Room_ID, Member_ID, Is_Member) VALUES (1, 1, TRUE);
+INSERT INTO Tasting_Room_Member(Tasting_Room_id, Member_id, Is_Member) VALUES (1, 1, TRUE);
 
-INSERT INTO Tasting_Room_Member(Tasting_Room_ID, Member_ID, Is_Member) VALUES (2, 1, FALSE);
+INSERT INTO Tasting_Room_Member(Tasting_Room_id, Member_id, Is_Member) VALUES (2, 1, FALSE);
 
-INSERT INTO Tasting_Room_Member(Tasting_Room_ID, Member_ID, Is_Member) VALUES (3, 3, TRUE);
+INSERT INTO Tasting_Room_Member(Tasting_Room_id, Member_id, Is_Member) VALUES (3, 3, TRUE);
 
-INSERT INTO Tasting_Room_Member(Tasting_Room_ID, Member_ID, Is_Member) VALUES (4, 4, TRUE);
+INSERT INTO Tasting_Room_Member(Tasting_Room_id, Member_id, Is_Member) VALUES (4, 4, TRUE);
 
 
-			/* Wineries_companies INSERT */
+			/* wineries_companies INSERT */
 
-INSERT INTO Wineries_companies(Wineries_ID, companies_ID, start_date, end_date, Amount_Bought) 
+INSERT INTO wineries_companies(wineries_id, companies_id, start_date, end_date, Amount_Bought) 
 							VALUES (1, 1, '2010-02-16', '2030-01-01', 700);
 
-INSERT INTO Wineries_companies(Wineries_ID, companies_ID, start_date, end_date, Amount_Bought) 
+INSERT INTO wineries_companies(wineries_id, companies_id, start_date, end_date, Amount_Bought) 
 							VALUES (2, 2, '2006-07-26','2030-01-01', 400);
 
-INSERT INTO Wineries_companies(Wineries_ID, companies_ID, start_date, end_date, Amount_Bought) 
+INSERT INTO wineries_companies(wineries_id, companies_id, start_date, end_date, Amount_Bought) 
 							VALUES (3, 3, '2000-01-01','2030-02-01', 345);
 
-INSERT INTO Wineries_companies(Wineries_ID, companies_ID, start_date, end_date, Amount_Bought) 
+INSERT INTO wineries_companies(wineries_id, companies_id, start_date, end_date, Amount_Bought) 
 							VALUES (4, 4, '2016-09-12','2030-01-01', 200);
 
 
-            /* Wineries_Tasting_Room INSERT */
+            /* wineries_Tasting_Room INSERT */
 
-INSERT INTO Wineries_Tasting_Room(Wineries_ID, Tasting_Room_ID) VALUES (1,1);
+INSERT INTO wineries_Tasting_Room(wineries_id, Tasting_Room_id) VALUES (1,1);
 
-INSERT INTO Wineries_Tasting_Room(Wineries_ID, Tasting_Room_ID) VALUES (2,2);
+INSERT INTO wineries_Tasting_Room(wineries_id, Tasting_Room_id) VALUES (2,2);
 
-INSERT INTO Wineries_Tasting_Room(Wineries_ID, Tasting_Room_ID) VALUES (3,3);
+INSERT INTO wineries_Tasting_Room(wineries_id, Tasting_Room_id) VALUES (3,3);
 
-INSERT INTO Wineries_Tasting_Room(Wineries_ID, Tasting_Room_ID) VALUES (4,4);
-
-
-
-            /* Wineries_Wine INSERT */
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (1,1);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (2,2);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (3,3);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (4,4);
-
-	/* Fluff data for Wineries_Wine */
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (1, 5);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (1, 6);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (1, 7);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (2, 8);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (2, 9);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (3, 10);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (4, 11);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (4, 12);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (4, 13);
-
-INSERT INTO Wineries_Wine(Wineries_ID, Wines_ID) VALUES (4, 14);
+INSERT INTO wineries_Tasting_Room(wineries_id, Tasting_Room_id) VALUES (4,4);
 
 
 
-            /* Wineries_specialty INSERT */
+            /* wineries_wine INSERT */
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (1,1);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (2,2);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (3,3);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (4,4);
+
+	/* Fluff data for wineries_wine */
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (1, 5);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (1, 6);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (1, 7);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (2, 8);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (2, 9);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (3, 15); 
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (4, 16); 
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (4, 12);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (4, 17);
+
+INSERT INTO wineries_wine(wineries_id, wines_id) VALUES (4, 18);
+
+select * from wines;
+
+            /* wineries_specialty INSERT */
             
-INSERT INTO Wineries_specialty(Wineries_ID, specialty_ID) VALUES (1,1);
+INSERT INTO wineries_specialty(wineries_id, specialty_id) VALUES (1,1);
 
-INSERT INTO Wineries_specialty(Wineries_ID, specialty_ID) VALUES (2,1);
+INSERT INTO wineries_specialty(wineries_id, specialty_id) VALUES (2,2);
 
-INSERT INTO Wineries_specialty(Wineries_ID, specialty_ID) VALUES (3,3);
+INSERT INTO wineries_specialty(wineries_id, specialty_id) VALUES (3,3);
 
-INSERT INTO Wineries_specialty(Wineries_ID, specialty_ID) VALUES (4,2);
-
-
-            /* Wineries_LocatiON INSERT */ 
-
-INSERT INTO Wineries_Location(Wineries_ID, Location_ID) VALUES (1,1);
-
-INSERT INTO Wineries_Location(Wineries_ID, Location_ID) VALUES (2,2);
-
-INSERT INTO Wineries_Location(Wineries_ID, Location_ID) VALUES (3,3);
-
-INSERT INTO Wineries_Location(Wineries_ID, Location_ID) VALUES (4,4);
+INSERT INTO wineries_specialty(wineries_id, specialty_id) VALUES (4,4);
 
 
+            /* wineries_location INSERT */ 
 
-            /* companies_LocatiON INSERT */
+INSERT INTO wineries_location(wineries_id, location_id) VALUES (1,1);
 
-INSERT INTO companies_Location(companies_ID, Location_ID) VALUES (1,5);
+INSERT INTO wineries_location(wineries_id, location_id) VALUES (2,2);
 
-INSERT INTO companies_Location(companies_ID, Location_ID) VALUES (2,6);
+INSERT INTO wineries_location(wineries_id, location_id) VALUES (3,3);
 
-INSERT INTO companies_Location(companies_ID, Location_ID) VALUES (3,7);
+INSERT INTO wineries_location(wineries_id, location_id) VALUES (4,4);
 
-INSERT INTO companies_Location(companies_ID, Location_ID) VALUES (4,8);
+
+
+            /* companies_location INSERT */
+
+INSERT INTO companies_location(companies_id, location_id) VALUES (1,5);
+
+INSERT INTO companies_location(companies_id, location_id) VALUES (2,6);
+
+INSERT INTO companies_location(companies_id, location_id) VALUES (3,7);
+
+INSERT INTO companies_location(companies_id, location_id) VALUES (4,8);
 
 
 -- End of INSERTs -----------------------------------------------------------------------------------
@@ -362,99 +368,99 @@ INSERT INTO companies_Location(companies_ID, Location_ID) VALUES (4,8);
 
 			/* A query utilizing a JOIN between at least three different TABLE. */
 	
-SELECT Wines_ID, wines_name, Wines.Amount_made, Wineries.name AS Wineries_Name, Wineries_companies.Amount_Bought, companies_name
-FROM Wines
-LEFT JOIN Wineries ON Wines.Wineries_ID = Wineries.Wineries_ID
-LEFT JOIN Wineries_companies ON Wineries.Wineries_ID = Wineries_companies.Wineries_ID
-LEFT JOIN companies ON Wineries_companies.companies_ID = companies.companies_ID
-GROUP BY Wineries.Wineries_ID;
+SELECT wines_id, wines_name, wines.amount_made, wineries.name AS wineries_Name, wineries_companies.Amount_Bought, companies_name
+FROM wines
+LEFT JOIN wineries ON wines.wineries_id = wineries.wineries_id
+LEFT JOIN wineries_companies ON wineries.wineries_id = wineries_companies.wineries_id
+LEFT JOIN companies ON wineries_companies.companies_id = companies.companies_id
+GROUP BY wineries.wineries_id;
 
 
             
             /* A query using a subquery. */
             
-SELECT Wineries.Wineries_ID, name, symbol, Amount_sold, SUM(Member.Member_ID) AS NumMembers
-FROM Wineries
-LEFT JOIN Wineries_Tasting_Room ON Wineries.Wineries_ID = Wineries_Tasting_Room.Wineries_ID
-LEFT JOIN Tasting_Room ON Wineries_Tasting_Room.Tasting_Room_ID = Tasting_Room.Tasting_Room_ID
-LEFT JOIN Tasting_Room_Member ON Tasting_Room.Tasting_Room_ID = Tasting_Room_Member.Tasting_Room_ID
-LEFT JOIN Member ON Tasting_Room_Member.Member_ID = Member.Member_ID
+SELECT wineries.wineries_id, name, symbol, Amount_sold, SUM(Member.Member_id) AS NumMembers
+FROM wineries
+LEFT JOIN wineries_Tasting_Room ON wineries.wineries_id = wineries_Tasting_Room.wineries_id
+LEFT JOIN Tasting_Room ON wineries_Tasting_Room.Tasting_Room_id = Tasting_Room.Tasting_Room_id
+LEFT JOIN Tasting_Room_Member ON Tasting_Room.Tasting_Room_id = Tasting_Room_Member.Tasting_Room_id
+LEFT JOIN Member ON Tasting_Room_Member.Member_id = Member.Member_id
 WHERE name IN (SELECT name
-				FROM Wineries
+				FROM wineries
 				WHERE symbol = 'Phoenix');
 
             
             /* a query using GROUP BY */
             
  
-SELECT Wines.Wines_ID, wines_name, Amount_made, Wineries.name AS WineriesName, specialty_name 
-FROM Wines
-LEFT JOIN Wineries_Wine ON Wines.Wines_ID = Wineries_Wine.Wines_ID
-LEFT JOIN Wineries ON Wineries_Wine.Wineries_ID = Wineries.Wineries_ID
-LEFT JOIN Wineries_specialty ON Wineries.Wineries_ID = Wineries_specialty.Wineries_ID
-LEFT JOIN specialty ON Wineries_specialty.specialty_ID = specialty.specialty_ID
-GROUP BY Wines_ID;
+SELECT wines.wines_id, wines_name, amount_made, wineries.name AS wineriesName, specialty_name 
+FROM wines
+LEFT JOIN wineries_wine ON wines.wines_id = wineries_wine.wines_id
+LEFT JOIN wineries ON wineries_wine.wineries_id = wineries.wineries_id
+LEFT JOIN wineries_specialty ON wineries.wineries_id = wineries_specialty.wineries_id
+LEFT JOIN specialty ON wineries_specialty.specialty_id = specialty.specialty_id
+GROUP BY wines_id;
 
 
             
             /* A query utilizing a JOIN, GROUP BY, HAVING and an aggregate function. */
             
-SELECT Wineries.name, Is_Member, Member.Member_ID, CONCAT(First_name, ' ', Last_name) AS MembersName, Birthday
-FROM Wineries
-RIGHT JOIN Tasting_Room ON Wineries.Wineries_ID = Tasting_Room.Wineries_ID
-RIGHT JOIN Tasting_Room_Member ON Tasting_Room.Tasting_Room_ID = Tasting_Room_Member.Tasting_Room_ID
-RIGHT JOIN Member ON Tasting_Room_Member.Member_ID = Member.Member_ID
+SELECT wineries.name, Is_Member, Member.Member_id, CONCAT(First_name, ' ', Last_name) AS MembersName, Birthday
+FROM wineries
+RIGHT JOIN Tasting_Room ON wineries.wineries_id = Tasting_Room.wineries_id
+RIGHT JOIN Tasting_Room_Member ON Tasting_Room.Tasting_Room_id = Tasting_Room_Member.Tasting_Room_id
+RIGHT JOIN Member ON Tasting_Room_Member.Member_id = Member.Member_id
 WHERE Is_Member != 0
-GROUP BY Wineries.Wineries_ID
-HAVING COUNT(Member.Member_ID) >= 1;  
+GROUP BY wineries.wineries_id
+HAVING COUNT(Member.Member_id) >= 1;  
 
 
 
             
             /* A query using ORDER BY */
             
-SELECT Wineries.name AS WinerysName, specialty_name, Description
-FROM Wineries
-RIGHT JOIN Wineries_specialty ON Wineries.Wineries_ID = Wineries_specialty.Wineries_ID
-RIGHT JOIN specialty ON Wineries_specialty.specialty_ID = specialty.specialty_ID
-ORDER BY Wineries.name;            
+SELECT wineries.name AS winerysName, specialty_name, description
+FROM wineries
+RIGHT JOIN wineries_specialty ON wineries.wineries_id = wineries_specialty.wineries_id
+RIGHT JOIN specialty ON wineries_specialty.specialty_id = specialty.specialty_id
+ORDER BY wineries.name;            
 		
 
 
             /* A query using WHERE EXISTS or WHERE NOT EXISTS */
             
-SELECT Wineries.name AS WineriesName, CONCAT(street, ', ', zip_code) AS Address
-FROM Wineries
-LEFT JOIN Wineries_Location ON Wineries.Wineries_ID = Wineries_Location.Wineries_ID
-LEFT JOIN Location ON Wineries_Location.Location_ID = Location.Location_ID
+SELECT wineries.name AS wineriesName, CONCAT(street, ', ', zip_code) AS Address
+FROM wineries
+LEFT JOIN wineries_location ON wineries.wineries_id = wineries_location.wineries_id
+LEFT JOIN location ON wineries_location.location_id = location.location_id
 WHERE EXISTS (SELECT * 
-				FROM Wineries_Wine 
-				LEFT JOIN Wines ON Wineries_Wine.Wines_ID = Wines.Wines_ID
-				WHERE Wineries.Wineries_ID = Wineries_Wine.Wineries_ID);
+				FROM wineries_wine 
+				LEFT JOIN wines ON wineries_wine.wines_id = wines.wines_id
+				WHERE wineries.wineries_id = wineries_wine.wineries_id);
             
             
             /* A query using a UNION */
             
-SELECT wines_name, Wineries.Wineries_ID   
-FROM Wines
-LEFT JOIN Wineries ON Wines.Wineries_ID = Wineries.Wineries_ID
-WHERE Wines.Wineries_ID >= 7
+SELECT wines_name, wineries.wineries_id   
+FROM wines
+LEFT JOIN wineries ON wines.wineries_id = wineries.wineries_id
+WHERE wines.wineries_id >= 7
 UNION
-SELECT wines_name, Wineries.Wineries_ID
-FROM Wines
-RIGHT JOIN Wineries ON Wines.Wineries_ID = Wineries.Wineries_ID
-WHERE Wines.Wineries_ID < 7;
+SELECT wines_name, wineries.wineries_id
+FROM wines
+RIGHT JOIN wineries ON wines.wineries_id = wineries.wineries_id
+WHERE wines.wineries_id < 7;
   
 
             
             /* A query using DISTINCT */
             
-SELECT DISTINCT Wineries.name, Amount_Bought + Amount_sold AS AmountPurchased
-FROM Wineries
-LEFT JOIN Wineries_Tasting_Room ON Wineries.Wineries_ID = Wineries_Tasting_Room.Wineries_ID
-LEFT JOIN Tasting_Room ON Wineries_Tasting_Room.Tasting_Room_ID = Tasting_Room.Tasting_Room_ID
-LEFT JOIN Wineries_companies ON Wineries.Wineries_ID = Wineries_companies.Wineries_ID
-ORDER BY Wineries.name;             
+SELECT DISTINCT wineries.name, Amount_Bought + Amount_sold AS AmountPurchased
+FROM wineries
+LEFT JOIN wineries_Tasting_Room ON wineries.wineries_id = wineries_Tasting_Room.wineries_id
+LEFT JOIN Tasting_Room ON wineries_Tasting_Room.Tasting_Room_id = Tasting_Room.Tasting_Room_id
+LEFT JOIN wineries_companies ON wineries.wineries_id = wineries_companies.wineries_id
+ORDER BY wineries.name;             
             
 
 
@@ -462,82 +468,227 @@ ORDER BY Wineries.name;
             An example would be an UPDATE WHERE the conditiON includes a query or an 
             INSERT that uses a SELECT. */
             
-UPDATE Wineries
-SET Wineries.name = (SELECT companies_name
+UPDATE wineries
+SET wineries.name = (SELECT companies_name
 						FROM companies
-						WHERE companies_ID = 3)
-WHERE Wineries_ID = 3;
+						WHERE companies_id = 3)
+WHERE wineries_id = 3;
 
 select * from companies;
 
             /* At least one VIEW which uses a GROUP BY, subquery or functiON not used in 
             any other steps. */
             
-CREATE OR REPLACE VIEW Num_Wineries as
-SELECT Wineries.Wineries_ID, Wineries.name, COUNT(Wineries.Wineries_ID) AS WineriesAmount, COUNT(wines_name) AS WineNameAmount
-FROM Wineries
-LEFT JOIN Wines ON Wineries.Wineries_ID = Wines.Wineries_ID
-GROUP BY Wineries.Wineries_ID;             
+CREATE OR REPLACE VIEW Num_wineries as
+SELECT wineries.wineries_id, wineries.name, COUNT(wineries.wineries_id) AS wineriesAmount, COUNT(wines_name) AS wineNameAmount
+FROM wineries
+LEFT JOIN wines ON wineries.wineries_id = wines.wineries_id
+GROUP BY wineries.wineries_id;             
             
 
 
             /* At least one function */         
 
-DROP FUNCTION IF EXISTS COUNT_Num_TypeOf_Wine;
+DROP FUNCTION IF EXISTS COUNT_Num_TypeOf_wine;
 DELIMITER // 
-CREATE FUNCTION COUNT_Num_TypeOf_Wine(_Wineries_ID INT) returns INT
+CREATE FUNCTION COUNT_Num_TypeOf_wine(_wineries_id INT) returns INT
 BEGIN 
-DECLARE _numWineries INT;
+DECLARE _numwineries INT;
 
-SELECT (WineriesAmount) INTO _numWineries FROM Num_Wineries WHERE Wineries_ID = _Wineries_ID;
+SELECT (wineriesAmount) INTO _numwineries FROM Num_wineries WHERE wineries_id = _wineries_id;
 
-RETURN _numWineries;
+RETURN _numwineries;
 END//
 DELIMITER ;
 
 
-SELECT Wineries_ID, name, COUNT_Num_TypeOf_Wine(Wineries_ID) as Total_TypeOf_Wines   
-FROM Wineries
-GROUP BY Wineries_ID;  
+SELECT wineries_id, name, COUNT_Num_TypeOf_wine(wineries_id) as Total_TypeOf_wines   
+FROM wineries
+GROUP BY wineries_id;  
 
 
 
             /* At least one stored procedure. */
             
-CREATE or replace view Amount_Of_Wines AS
-SELECT wines_name, Wines_ID, sum(Amount_made) AS WineTotal, Wineries.name AS Name_Of_Winery
-FROM Wines
-LEFT JOIN Wineries ON Wines.Wineries_ID = Wineries.Wineries_ID
-GROUP BY Wines_ID;
+CREATE or replace view Amount_Of_wines AS
+SELECT wines_name, wines_id, sum(amount_made) AS wineTotal, wineries.name AS Name_Of_winery
+FROM wines
+LEFT JOIN wineries ON wines.wineries_id = wineries.wineries_id
+GROUP BY wines_id;
             
             
-DROP PROCEDURE IF EXISTS Total_Wines;
+DROP PROCEDURE IF EXISTS Total_wines;
 DELIMITER //
-				CREATE PROCEDURE Total_Wines(_Wineries_ID INT)
+				CREATE PROCEDURE Total_wines(_wineries_id INT)
                  begin
-					SELECT (Name_Of_Winery), _Wineries_ID, wines_name, (WineTotal) FROM Amount_Of_Wines WHERE Wines_ID = _Wineries_ID;
+					SELECT (Name_Of_winery), _wineries_id, wines_name, (wineTotal) FROM Amount_Of_wines WHERE wines_id = _wineries_id;
 				 end //
                 
 DELIMITER ;
                  
-CALL Total_Wines(3);
+CALL Total_wines(3);
 
 
 
-			/* Query to get companies and Wineries name and Location, start date, and end date of contract */
+			/* Query to get companies and wineries name and location, start date, and end date of contract */
 
-SELECT companies_name AS Company, Amount_Bought, Wineries.name AS Winery, 
-						COUNT_Num_TypeOf_Wine(Wineries.Wineries_ID) AS NumberOfTypesOfWine, 
-						start_date, end_date, CONCAT(street, ', ', Zip_code) AS Company_Location
-FROM Wineries
-LEFT JOIN Wineries_companies ON Wineries.Wineries_ID = Wineries_companies.Wineries_ID
-LEFT JOIN companies ON Wineries_companies.companies_ID = companies.companies_ID
-LEFT JOIN companies_Location ON companies.companies_ID = companies_Location.companies_ID
-LEFT JOIN Location ON companies_Location.Location_ID = Location.Location_ID
-WHERE companies.companies_ID != 0 AND Wineries.Wineries_ID != 0 AND Location.Location_ID != 0
-GROUP BY Wineries.Wineries_ID
-ORDER BY companies.companies_ID;
+SELECT companies_name AS Company, Amount_Bought, wineries.name AS winery, 
+						COUNT_Num_TypeOf_wine(wineries.wineries_id) AS NumberOfTypesOfwine, 
+						start_date, end_date, CONCAT(street, ', ', Zip_code) AS Company_location
+FROM wineries
+LEFT JOIN wineries_companies ON wineries.wineries_id = wineries_companies.wineries_id
+LEFT JOIN companies ON wineries_companies.companies_id = companies.companies_id
+LEFT JOIN companies_location ON companies.companies_id = companies_location.companies_id
+LEFT JOIN location ON companies_location.location_id = location.location_id
+WHERE companies.companies_id != 0 AND wineries.wineries_id != 0 AND location.location_id != 0
+GROUP BY wineries.wineries_id
+ORDER BY companies.companies_id;
  
 
 -- End of SQL Queries -------------------------------------------------------------------------------
+
+
+
+-- WEBSTORM PROCEDURES ------------------------------------------------------------------------------
+
+
+--         companies Get info
+
+CREATE OR REPLACE VIEW companiesGetById AS
+SELECT c.*, a.street, a.zip_code FROM companies c 
+        LEFT JOIN companies_location ca on ca.companies_id = c.companies_id 
+        LEFT JOIN location a on a.location_id = ca.location_id;
+
+
+DROP PROCEDURE IF EXISTS companies_getinfo;
+
+DELIMITER //
+CREATE PROCEDURE companies_getinfo (_companies_id int)
+BEGIN
+
+SELECT * FROM companies WHERE companies_id in (SELECT companies_id FROM companies
+												WHERE companies_id = _companies_id);
+
+SELECT a.*, s.companies_id FROM location a
+LEFT JOIN companies_location s on s.location_id = a.location_id AND companies_id = _companies_id;
+
+END //
+DELIMITER ;
+
+
+--         wines get info
+
+DROP PROCEDURE IF EXISTS wines_getinfo;
+
+DELIMITER // 
+CREATE PROCEDURE wines_getinfo(_wines_id INT)
+BEGIN
+
+SELECT * FROM wines WHERE wines_id = _wines_id;
+
+SELECT ws.name, ww.wines_id FROM wineries ws
+LEFT JOIN wines ww ON ww.wineries_id = ws.wineries_id 
+WHERE wines_id = _wines_id;
+
+END //
+DELIMITER ;
+
+
+
+--         All wineries in table
+
+DROP PROCEDURE IF EXISTS all_wineries;
+
+DELIMITER //
+CREATE PROCEDURE all_wineries()
+BEGIN 
+
+SELECT w.wineries_id, w.name FROM wineries w;
+
+END //
+DELIMITER ;
+SELECT w.wineries_id, w.name FROM wineries w;
+
+
+
+--        wineries get info
+
+
+DROP PROCEDURE IF EXISTS wineries_getinfo;
+
+DELIMITER //
+CREATE PROCEDURE wineries_getinfo(_wineries_id int)
+BEGIN
+
+SELECT * FROM wineries w WHERE w.wineries_id = _wineries_id;
+
+SELECT wc.wineries_id, wc.companies_id, c.companies_name FROM wineries_companies wc
+JOIN companies c ON c.companies_id = wc.companies_id
+WHERE wc.wineries_id = _wineries_id;
+
+SELECT wl.*, l.* FROM wineries_location wl
+JOIN location l ON l.location_id = wl.location_id
+WHERE wl.wineries_id = _wineries_id;
+
+SELECT ws.*, s.specialty_name FROM wineries_specialty ws
+JOIN specialty s ON s.specialty_id = ws.specialty_id
+WHERE ws.wineries_id = _wineries_id;
+
+END //
+DELIMITER ;
+
+
+
+
+--  Get the location, companies, and specialty table info
+
+CREATE OR REPLACE VIEW companiesView AS
+SELECT wc.wineries_id, wc.companies_id, c.companies_name FROM wineries_companies wc
+JOIN companies c ON c.companies_id = wc.companies_id
+GROUP BY c.companies_name;
+
+
+DROP PROCEDURE IF EXISTS all_companies_location_specialty;
+
+DELIMITER //
+CREATE PROCEDURE all_companies_location_specialty()
+BEGIN 
+
+SELECT * FROM companiesView;
+
+SELECT wl.*, l.* FROM wineries_location wl
+JOIN location l ON l.location_id = wl.location_id;
+
+SELECT ws.*, s.specialty_name FROM wineries_specialty ws
+JOIN specialty s ON s.specialty_id = ws.specialty_id
+GROUP BY s.specialty_name;
+
+END //
+DELIMITER ; 
+
+
+-- User input to wine age testing for in use in webstorm getALL
+
+SELECT w.wines_name, w.amount_made, SUM(amount_made-amount_sold) AS TotalWine, 
+		wr.name, wr.symbol, s.specialty_name, s.description, CONCAT(l.street, ', ', l.zip_code) AS Wlocation
+FROM wines w
+JOIN wineries wr ON wr.wineries_id = w.wineries_id
+JOIN wineries_specialty ws ON ws.wineries_id = wr.wineries_id
+JOIN specialty s ON s.specialty_id = ws.specialty_id
+JOIN wineries_location wl ON wl.wineries_id = wr.wineries_id
+JOIN location l ON l.location_id = wl.location_id
+GROUP BY w.wines_id
+HAVING w.wines_id = 1;
+		
+
+
+
+
+
+
+
+
+
+
+
 

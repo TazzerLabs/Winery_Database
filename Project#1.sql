@@ -241,10 +241,10 @@ INSERT INTO Member(email, First_name, Last_name, Birthday, Payment)
 				VALUES ('ZinLover@gmail.com', 'Stephanie', 'Lee', '1980-02-16', 'BofA 3456');
 
 INSERT INTO Member(email, First_name, Last_name, Birthday, Payment) 
-				VALUES ('GeekwineO@gmail.com', 'David', 'Flori', '1974-07-28', 'USAA 9876');
+				VALUES ('GeekwineO@gmail.com', 'David', 'Flori', '1974-04-13', 'USAA 9876');
 
 INSERT INTO Member(email, First_name, Last_name, Birthday, Payment) 
-				VALUES ('Texwine@gmail.com', 'Brenda', 'Esparza', '1974-11-15', 'Bitcoin 4680');
+				VALUES ('Texwine@gmail.com', 'Brenda', 'Esparza', '1974-12-25', 'Bitcoin 4680');
 
 			/* companies INSERT */ 
 
